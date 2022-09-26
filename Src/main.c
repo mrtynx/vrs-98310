@@ -46,15 +46,34 @@ int main(void)
 
 
   /* Enable clock for GPIO port A*/
-  *((volatile uint32_t *)(uint32_t)(RCC_AHBENR_REG)) |= (uint32_t)(1<<17);
 
 	//type your code for GPIOA clock enable here:
+  *((volatile uint32_t *)(uint32_t)(RCC_AHBENR_REG)) |= (uint32_t)(1<<17);
 
 
   /* GPIOA pin 3 and 4 setup */
 
 	//type your code for GPIOA pins setup here:
+  // pin 3 (input pin)
+  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) &= ~(uint32_t)(/*DOPLNIT*/);
+  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) |= (uint32_t)(/*DOPLNIT*/);
+  // pin4 (output pin)
+  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) &= ~(uint32_t)(/*DOPLNIT*/); 
 
+  // GPIO OTYPER register
+  *((volatile uint32_t *)(uint32_t)(GPIOA_OTYPER_REG)) &= ~(/*DOPLNIT*/); 
+
+  // GPIO OSPEEDR register
+  *((volatile uint32_t *)(uint32_t)(GPIOA_OSPEEDER_REG)) &= ~(/*DOPLNIT*/); 
+
+  // GPIO PUPDR register
+
+  // set pull up for GPIOA pin 3 (input)
+  *((volatile uint32_t *)(uint32_t)(GPIOA_PUPDR_REG)) |= ~(/*DOPLNIT*/); 
+
+  // set NO pull for GPIOA pin 4 
+
+  *((volatile uint32_t *)(uint32_t)(GPIOA_PUPDR_REG)) &= ~(/*DOPLNIT*/); 
 
   while (1)
   {
