@@ -41,6 +41,7 @@ int main(void)
    *
    * In header file "assignment.h" define macros for MCU registers access and LED blink application.
    * Code in this file must use these macros for the peripherals setup.
+   *
    * Code of the LED blink application is already given so just the macros used in the application must be defined.
    */
 
@@ -48,53 +49,38 @@ int main(void)
   /* Enable clock for GPIO port A*/
 
 	//type your code for GPIOA clock enable here:
-  *((volatile uint32_t *)(uint32_t)(RCC_AHBENR_REG)) |= (uint32_t)(1<<17);
+  *((volatile uint32_t *) (RCC_BASE_ADDR + 0x00000014U)) |= (uint32_t)(1 << 17);
 
 
   /* GPIOA pin 3 and 4 setup */
 
 	//type your code for GPIOA pins setup here:
   // pin 3 (input pin)
-  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) &= ~(uint32_t)(/*DOPLNIT*/);
-  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) |= (uint32_t)(/*DOPLNIT*/);
-  // pin4 (output pin)
-  *((volatile uint32_t *)(uint32_t)(GPIOA_MODER_REG)) &= ~(uint32_t)(/*DOPLNIT*/); 
+  GPIOA_MODER_REG &= ~(uint32_t)(0x3 << 6);
+
+  // pin 4 (output pin)
+  GPIOA_MODER_REG &= ~(uint32_t)(0x3 << 8);
+  GPIOA_MODER_REG |= (uint32_t)(1 << 8);
 
   // GPIO OTYPER register
-  *((volatile uint32_t *)(uint32_t)(GPIOA_OTYPER_REG)) &= ~(/*DOPLNIT*/); 
+  GPIOA_OTYPER_REG &= ~(1 << 4);
 
   // GPIO OSPEEDR register
-  *((volatile uint32_t *)(uint32_t)(GPIOA_OSPEEDER_REG)) &= ~(/*DOPLNIT*/); 
+  GPIOA_OSPEEDER_REG &= ~(0x3 << 8);
 
   // GPIO PUPDR register
 
   // set pull up for GPIOA pin 3 (input)
-  *((volatile uint32_t *)(uint32_t)(GPIOA_PUPDR_REG)) |= ~(/*DOPLNIT*/); 
+  GPIOA_PUPDR_REG |= (1 << 6);
 
-  // set NO pull for GPIOA pin 4 
+  // set NO pull for GPIOA pin 4
 
-  *((volatile uint32_t *)(uint32_t)(GPIOA_PUPDR_REG)) &= ~(/*DOPLNIT*/); 
+ GPIOA_PUPDR_REG &= ~(0x3 << 8);
 
   while (1)
   {
-	  if(BUTTON_GET_STATE)
-	  {
-		  // 0.25s delay
-		  LL_mDelay(250);
-		  LED_ON;
-		  // 0.25s delay
-		  LL_mDelay(250);
-		  LED_OFF;
-	  }
-	  else
-	  {
-		  // 1s delay
-		  LL_mDelay(1000);
-		  LED_ON;
-		  // 1s delay
-		  LL_mDelay(1000);
-		  LED_OFF;
-	  }
+	  LED_ON;
+
   }
 
 }
