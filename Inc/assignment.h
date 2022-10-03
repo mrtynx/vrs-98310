@@ -55,4 +55,3 @@ EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples);
 
 #endif /* ASSIGNMENT_H_ */
 
-*/
